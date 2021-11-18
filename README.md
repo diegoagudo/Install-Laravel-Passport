@@ -219,20 +219,21 @@ Instead use the command `php artisan passport:client`, will create a command wit
 ### Step 6
 Edit the file `routes.php` and create route for logout:
 ```php
-	Route::get('/oauth/logout', function(\Illuminate\Http\Client\Request $request) {  
-	  $oauthClients = Illuminate\Support\Facades\DB::table('oauth_clients')  
-	 ->where('id', $request->client_id)  
-	 ->where('revoked', 0)  
-	 ->first();  
-	  
-	 if(!$oauthClients)  
-	  die('Bad request');  
-	  
-	 if(!$request->redirect_url_logout OR $request->redirect_url_logout != $oauthClients->redirect_logout)  
-	  die('Bad request');  
-	  
-	  Illuminate\Support\Facades\Auth::logout();  
-	  
-	 return redirect($request->redirect_url_logout);  
+<?php
+	Route::get('/oauth/logout', function(\Illuminate\Http\Client\Request $request) {
+	    $oauthClients = Illuminate\Support\Facades\DB::table('oauth_clients')
+		->where('id', $request->client_id)
+		->where('revoked', 0)
+		->first();
+
+	    if(!$oauthClients)
+		die('Bad request');
+
+	    if(!$request->redirect_url_logout OR $request->redirect_url_logout != $oauthClients->redirect_logout)
+		die('Bad request');
+
+	    Illuminate\Support\Facades\Auth::logout();
+
+	    return redirect($request->redirect_url_logout);
 	});
 ```
